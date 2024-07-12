@@ -1,6 +1,7 @@
 package main
 
 import (
+	"GoLearn/eazy-chat/pkg/interceptor/rpcserver"
 	"flag"
 	"fmt"
 
@@ -32,6 +33,8 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
+	// 日志错误记录中间件
+	s.AddUnaryInterceptors(rpcserver.LogInterceptor)
 	defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
